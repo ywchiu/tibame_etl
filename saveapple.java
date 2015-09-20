@@ -22,8 +22,8 @@ public class saveapple {
 		
 		Connection con = null;
 		PreparedStatement pst = null;
-		String insertdbSQL = "insert into news_main(title, content, view_cnt, category) "
-				+ "values(?,?,?,?)";
+		String insertdbSQL = "insert into news_main(title, content, time, view_cnt, category) "
+				+ "values(?,?,?, ?,?)";
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -66,9 +66,11 @@ public class saveapple {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy¦~MM¤ëdd¤éhh:mm");
 		formatter.setTimeZone(TimeZone.getTimeZone("Asia/Taipei"));
 		Date dt = formatter.parse(time);
+		
+		//java.sql.Date dt2 = java.sql.Date.parse(dt);
 
 		String popularity = doc.select(".clicked").text();
-		String category = doc.select("realtimelist h1").text() ;
+		String category = doc.select("#realtimelist h1").text() ;
 		//realtimelist h1
 		
 		String patternStr = "(.+)\\((\\d+)\\)";
@@ -80,13 +82,11 @@ public class saveapple {
 			
 			pst.setString(1, title);
 			pst.setString(2, content);
-			//pst.setTime(3, (Time) dt);
-			pst.setInt(3, view_cnt);
-			pst.setString(4, category);
+			pst.setDate(3,  new java.sql.Date(dt.getTime()));
+			pst.setInt(4, view_cnt);
+			pst.setString(5, category);
 			pst.execute();
-			System.out.println(String.format("%s %s %s %d %s"
-					,title, content, dt 
-					,view_cnt, category));
+			
 		}
 		
 	}
