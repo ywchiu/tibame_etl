@@ -45,23 +45,23 @@ public class saveapple {
 		Elements rtddt = doc.select(".rtddt");
 		for (Element li : rtddt) {
 			String link = li.select("a").attr("href");
+			String category = li.select("h2").text();
 
 			Matcher matcher2 = pattern2.matcher(link);
 			boolean linkfound = matcher2.find();
 			if (!linkfound) {
 				link = domain + li.select("a").attr("href");
 			}
-			readarticle(link, pst);
+			readarticle(link, pst, category);
 		}
 		con.close();
 	}
 
-	public static void readarticle(String article_url, PreparedStatement pst) throws Exception {
+	public static void readarticle(String article_url, PreparedStatement pst, String category) throws Exception {
 		Document detail = Jsoup.connect(article_url).get();
 		String title = detail.select("#h1").text();
 		String summary = detail.select("#summary").text();
 		String time = detail.select(".gggs time").text();
-		String category = detail.select("#realtimelist h1").text() ;
 		Integer view_cnt = 0;
 
 		DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy¶~MM§Îdd§ÈHH:mm");
