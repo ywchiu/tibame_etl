@@ -12,6 +12,9 @@
 ## MySQL
 - https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-community-5.6.26.0.msi
 
+## Joda
+- https://github.com/JodaOrg/joda-time/releases
+
 ## 任務需求
 - 建立新聞資訊爬蟲
 - 使用Java整理新聞資訊
