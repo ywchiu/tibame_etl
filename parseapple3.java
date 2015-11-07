@@ -28,23 +28,24 @@ public class parseapple3 {
 
 			Matcher matcher = pattern.matcher(title);
 			Matcher matcher2 = pattern2.matcher(link);
-			boolean matchFound2 = matcher2.find();
-			if (!matchFound2) {
+			boolean linkfound = matcher2.find();
+			if (!linkfound) {
 				link = domain + li.select("a").attr("href");
 			}
 			boolean matchFound = matcher.find();
 			if (matchFound) {
-				// System.out.println(link);
 				readarticle(link);
 			}
-
 		}
 	}
 
 	public static void readarticle(String article_url) throws Exception {
 		Document detail = Jsoup.connect(article_url).get();
-		Elements summary = detail.select("#summary");
-		System.out.println(summary.text());
+		String title = detail.select("#h1").text();
+		String summary = detail.select("#summary").text();
+		String time = detail.select(".gggs time").text();
+		String popularity = detail.select(".clicked").text();
+		System.out.println(title + " " + popularity + " " +  time);
 
 	}
 }
