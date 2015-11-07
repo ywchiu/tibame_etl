@@ -7,10 +7,10 @@ import org.jsoup.nodes.Document;
 
 public class parsewiki {
 	   public static void main(String[] args) throws IOException{
-		   Document doc;
+		    Document doc;
 			doc = Jsoup.connect("https://en.wikipedia.org/wiki/Main_Page").get();
-			String title = doc.select("table").text();
-			//String title = doc.select("table").html();
-			System.out.println(title);	   
+			String title = doc.select("title").text();
+			String siteSub = doc.select("#siteSub").text();
+			System.out.println(siteSub);
 	   }
 }

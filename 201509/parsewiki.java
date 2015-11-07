@@ -5,11 +5,12 @@ import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-public class htmlget {
+public class parsewiki {
 	   public static void main(String[] args) throws IOException{
-		    Document doc;
+		   Document doc;
 			doc = Jsoup.connect("https://en.wikipedia.org/wiki/Main_Page").get();
-			String html = doc.html();
-			System.out.println(html);	   
+			String title = doc.select("table").text();
+			//String title = doc.select("table").html();
+			System.out.println(title);	   
 	   }
 }

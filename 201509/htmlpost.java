@@ -11,7 +11,7 @@ public class htmlpost {
 		doc = Jsoup.connect("https://www.thsrc.com.tw/tw/TimeTable/SearchResult")
 				.data("StartStation", "977abb69-413a-4ccf-a109-0272c24fd490")
 				.data("EndStation", "fbd828d8-b1da-4b06-a3bd-680cdca4d2cd")
-				.data("SearchDate", "2015/11/07")
+				.data("SearchDate", "2015/09/20")
 				.data("SearchTime", "11:30")
 				.data("SearchWay", "DepartureInMandarin")
 				.post();
