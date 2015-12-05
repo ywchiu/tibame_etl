@@ -19,7 +19,12 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
 public class saveapple {
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws IOException, SQLException {
+		Document doc;
+		String appleStr = "appledaily";
+		String domain = "http://www.appledaily.com.tw";
+		Pattern pattern2 = Pattern.compile(appleStr);
+		
 		
 		Connection con = null;
 		PreparedStatement pst = null;
@@ -36,45 +41,47 @@ public class saveapple {
 		}
 		pst = (PreparedStatement) con.prepareStatement(insertdbSQL);
 		
-		String appleStr = "appledaily";
-		Pattern pattern2 = Pattern.compile(appleStr);
-		Document doc;
-		String domain = "http://www.appledaily.com.tw";
-		doc = Jsoup.connect("http://www.appledaily.com.tw/realtimenews/section/new/").get();
+
+		doc = Jsoup.connect(
+				"http://www.appledaily.com.tw/realtimenews/section/new/").get();
 
 		Elements rtddt = doc.select(".rtddt");
 		for (Element li : rtddt) {
-			String link = li.select("a").attr("href");
+			
 			String category = li.select("h2").text();
+			String link = li.select("a").attr("href");
 
 			Matcher matcher2 = pattern2.matcher(link);
-			boolean linkfound = matcher2.find();
-			if (!linkfound) {
-				link = domain + li.select("a").attr("href");
+			boolean matchFound2 = matcher2.find();
+			if (!matchFound2) {
+				link = domain + link;
 			}
+
 			readarticle(link, pst, category);
 		}
 		con.close();
 	}
 
-	public static void readarticle(String article_url, PreparedStatement pst, String category) throws Exception {
-		Document detail = Jsoup.connect(article_url).get();
-		String title = detail.select("#h1").text();
-		String summary = detail.select("#summary").text();
-		String time = detail.select(".gggs time").text();
+	public static void readarticle(String link, PreparedStatement pst, String category) throws IOException, SQLException {
 		Integer view_cnt = 0;
-
-		DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy年MM月dd日HH:mm");
-		DateTime dt = DateTime.parse(time, fmt);
 		String patternStr = "(.+)\\((\\d+)\\)";
-
 		Pattern pattern = Pattern.compile(patternStr);
-		Matcher matcher = pattern.matcher(detail.select(".clicked").text());
+		
+		Document detail = Jsoup.connect(link).get();
+		String time  = detail.select(".gggs time").text();
+		String summary = detail.select("#summary").text();
+		String title = detail.select("#h1").text();
+		String clicked = detail.select(".clicked").text();
+		
+		Matcher matcher = pattern.matcher(clicked);
 		boolean matchFound = matcher.find();
 		if (matchFound) {
 			view_cnt = Integer.parseInt(matcher.group(2));
 		}
-		//System.out.println(title + " " + popularity + " " + dt);
+		
+		DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy年MM月dd日HH:mm");
+		DateTime dt = DateTime.parse(time, fmt);
+		System.out.println(link);
 		pst.setString(1, title);
 		pst.setString(2, summary);
 		pst.setTimestamp(3, new Timestamp(dt.toDate().getTime()));
