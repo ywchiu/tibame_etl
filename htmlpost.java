@@ -1,12 +1,7 @@
 package appledaily;
 
 import java.io.IOException;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
