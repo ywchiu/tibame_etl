@@ -8,8 +8,8 @@ import org.jsoup.nodes.Document;
 public class htmlget {
 	   public static void main(String[] args) throws IOException{
 		    Document doc;
-			doc = Jsoup.connect("https://en.wikipedia.org/wiki/Main_Page").get();
-			String html = doc.html();
+			doc = Jsoup.connect("http://en.wikipedia.org/").get();
+			String html = doc.select(".firstHeading").text();
 			System.out.println(html);	   
 	   }
 }
