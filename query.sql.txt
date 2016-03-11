@@ -1,0 +1,6 @@
+select * from appledaily.news_main a1 inner join (
+SELECT category, max(view_cnt) as mv FROM appledaily.news_main group by category
+) a2 on a1.category = a2.category and a1.view_cnt = a2.mv
+ 
+ 
+ SELECT category, avg(view_cnt), count(1) as mv FROM appledaily.news_main group by category order by 2 desc
