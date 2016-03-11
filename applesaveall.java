@@ -61,7 +61,7 @@ public class applesaveall {
 		String title = doc.select("#h1").text();
 		String content = doc.select("div.articulum.trans").text();
 		String time = doc.select("div.gggs > time").text();
-		DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy¦~MM¤ëdd¤éHH:mm");
+		DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyyå¹´MMæœˆddæ—¥HH:mm");
 		DateTime dt = DateTime.parse(time, fmt);
 		String popularity = doc.select(".clicked").text();
 
