@@ -1,6 +1,8 @@
 package appledaily;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,11 +16,17 @@ public static void main(String args[]) throws IOException{
 	String dt = doc.select(".gggs time").text();
 	String clicked = doc.select(".clicked").text();
 	
-	
-	//.clicked
-	//##summary
-	//String html = doc.html();
-	System.out.println(title + " " + dt + " " + clicked);
+	String patternStr = "¤H®ð\\((\\d+)\\)";
+	Pattern pattern = Pattern.compile(patternStr);
+	Matcher matcher = pattern.matcher(clicked);
+	boolean matchFound = matcher.find();
+	if (matchFound) {
+		String popularity = matcher.group(1);
+	//System.out.println(matcher.group(1));
+		System.out.println(Integer.parseInt(popularity));
+	}
+
+	//System.out.println(title + " " + dt + " " + clicked);
 
 }
 }
